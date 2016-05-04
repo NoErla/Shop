@@ -1,0 +1,41 @@
+
+/*---flash images scroll --*/
+#flash_show_out { WIDTH: 225px; position: static; overflow: hidden; height:92px;}
+#flash_show {TEXT-ALIGN: center;}
+#flash_img {FILTER: progid:DXImageTransform.Microsoft.Fade(Overlap=1.00); OVERFLOW: hidden; WIDTH: 225px; height:92px;}
+#flash_img a img{ width:225px; height:92px;}
+#flash_btn {POSITION: relative; float: left; bottom: 22px; WIDTH: 225px;}
+#flash_btn div.ads_btnimg {text-align: right; padding-right: 2px; }
+
+#flash_btn div a{
+	color:#FFFFFF;
+	text-decoration:none; 
+	vertical-align: middle;
+	text-align: center;
+	height: 22px; 
+	line-height: 22px;
+	padding: 2px 2px;
+	font-size: 10px;
+	/*
+	font-size: 12px;
+	font-weight: bold;
+	*/
+}
+
+#flash_btn div a:hover{
+	background: url("../images/imgscroll/flash_btn_hover.gif"../images/) no-repeat center 2px;
+}
+
+#flash_show_ctl {background:url("../images/imgscroll/title_b.jpg"../images/) no-repeat; COLOR: #434343; HEIGHT: 18px; text-align:center; width: 689px;}
+#flash_show_ctl A {COLOR: #434343}
+
+/* -------以下样式是JS脚本中有引用的----- */
+#flash_show_ctl_msg {FILTER: progid:DXImageTransform.Microsoft.Fade(Overlap=1.00); FLOAT: left; OVERFLOW: hidden; WIDTH: 689px}
+#flash_show_ctl_tuber {Z-INDEX: 100; right: 0px; POSITION: relative; bottom: 10px}
+#flash_show_ctl_arrow {MARGIN-RIGHT: 5px}
+#flash_show_ctl_msg span{line-height:18px; text-align:center; vertical-align:middle;}
+#flash_show_ctl_msg .btn_npnav{margin: 0px 6px;}
+#flash_show_ctl_msg .img_topic{width: 146px; overflow:hidden; white-space: nowrap; text-overflow:ellipsis;}
+
+
+#flash_show_out_sub { WIDTH: 689px; HEIGHT: 98px;}

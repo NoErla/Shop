@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="st.myc.shop.dao.tbGoods.TbGoodsMapper" >
+  <resultMap id="BaseResultMap" type="st.myc.shop.entity.TbGoods" >
+    <id column="GOODS_ID" property="goodsId" jdbcType="INTEGER" />
+    <result column="GOODS_NAME" property="goodsName" jdbcType="VARCHAR" />
+    <result column="GOODS_TYPE_ID" property="goodsTypeId" jdbcType="INTEGER" />
+    <result column="PRICE" property="price" jdbcType="DOUBLE" />
+    <result column="IMAGE" property="image" jdbcType="VARCHAR" />
+    <result column="SELL_COUNT" property="sellCount" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="st.myc.shop.entity.TbGoods" extends="BaseResultMap" >
+    <result column="DESCRIPT" property="descript" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GOODS_ID, GOODS_NAME, GOODS_TYPE_ID, PRICE, IMAGE, SELL_COUNT, CREATE_TIME, STATUS
+  </sql>
+  <sql id="Blob_Column_List" >
+    DESCRIPT
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="st.myc.shop.entity.TbGoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="st.myc.shop.entity.TbGoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultType="st.myc.shop.entity.vo.TbGoodsVo" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_goods
+    where GOODS_ID = #{goodsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_goods
+    where GOODS_ID = #{goodsId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="st.myc.shop.entity.TbGoodsExample" >
+    delete from tb_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="st.myc.shop.entity.TbGoods" >
+    <selectKey resultType="java.lang.Integer" keyProperty="goodsId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_goods (GOODS_NAME, GOODS_TYPE_ID, PRICE, 
+      IMAGE, SELL_COUNT, CREATE_TIME, 
+      STATUS, DESCRIPT)
+    values (#{goodsName,jdbcType=VARCHAR}, #{goodsTypeId,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, 
+      #{image,jdbcType=VARCHAR}, #{sellCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{descript,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="st.myc.shop.entity.TbGoods" >
+    <selectKey resultType="java.lang.Integer" keyProperty="goodsId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsName != null" >
+        GOODS_NAME,
+      </if>
+      <if test="goodsTypeId != null" >
+        GOODS_TYPE_ID,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="image != null" >
+        IMAGE,
+      </if>
+      <if test="sellCount != null" >
+        SELL_COUNT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="descript != null" >
+        DESCRIPT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeId != null" >
+        #{goodsTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="sellCount != null" >
+        #{sellCount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="descript != null" >
+        #{descript,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="st.myc.shop.entity.TbGoodsExample" resultType="java.lang.Integer" >
+    select count(*) from tb_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_goods
+    <set >
+      <if test="record.goodsId != null" >
+        GOODS_ID = #{record.goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsName != null" >
+        GOODS_NAME = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsTypeId != null" >
+        GOODS_TYPE_ID = #{record.goodsTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        PRICE = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.image != null" >
+        IMAGE = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellCount != null" >
+        SELL_COUNT = #{record.sellCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.descript != null" >
+        DESCRIPT = #{record.descript,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update tb_goods
+    set GOODS_ID = #{record.goodsId,jdbcType=INTEGER},
+      GOODS_NAME = #{record.goodsName,jdbcType=VARCHAR},
+      GOODS_TYPE_ID = #{record.goodsTypeId,jdbcType=INTEGER},
+      PRICE = #{record.price,jdbcType=DOUBLE},
+      IMAGE = #{record.image,jdbcType=VARCHAR},
+      SELL_COUNT = #{record.sellCount,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=INTEGER},
+      DESCRIPT = #{record.descript,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_goods
+    set GOODS_ID = #{record.goodsId,jdbcType=INTEGER},
+      GOODS_NAME = #{record.goodsName,jdbcType=VARCHAR},
+      GOODS_TYPE_ID = #{record.goodsTypeId,jdbcType=INTEGER},
+      PRICE = #{record.price,jdbcType=DOUBLE},
+      IMAGE = #{record.image,jdbcType=VARCHAR},
+      SELL_COUNT = #{record.sellCount,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="st.myc.shop.entity.TbGoods" >
+    update tb_goods
+    <set >
+      <if test="goodsName != null" >
+        GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeId != null" >
+        GOODS_TYPE_ID = #{goodsTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="image != null" >
+        IMAGE = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="sellCount != null" >
+        SELL_COUNT = #{sellCount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="descript != null" >
+        DESCRIPT = #{descript,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where GOODS_ID = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="st.myc.shop.entity.TbGoods" >
+    update tb_goods
+    set GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      GOODS_TYPE_ID = #{goodsTypeId,jdbcType=INTEGER},
+      PRICE = #{price,jdbcType=DOUBLE},
+      IMAGE = #{image,jdbcType=VARCHAR},
+      SELL_COUNT = #{sellCount,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=INTEGER},
+      DESCRIPT = #{descript,jdbcType=LONGVARCHAR}
+    where GOODS_ID = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="st.myc.shop.entity.TbGoods" >
+    update tb_goods
+    set GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      GOODS_TYPE_ID = #{goodsTypeId,jdbcType=INTEGER},
+      PRICE = #{price,jdbcType=DOUBLE},
+      IMAGE = #{image,jdbcType=VARCHAR},
+      SELL_COUNT = #{sellCount,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=INTEGER}
+    where GOODS_ID = #{goodsId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getCountByType" resultType="java.lang.Integer">
+  	select count(0)
+  	from tb_goods
+  	<if test="typeId != null" >
+  	where GOODS_TYPE_ID = #{typeId}
+  	</if>
+  </select>
+  
+  <select id="getListByType" resultType="st.myc.shop.entity.vo.TbGoodsVo" >
+  	select *
+  	from tb_goods
+  	<if test="typeId != null" >
+  	where GOODS_TYPE_ID = #{typeId}
+  	</if>
+  	limit #{offset},#{rows} 
+  </select>
+  
+  <select id="getNewestList" resultType="st.myc.shop.entity.vo.TbGoodsVo" >
+  	select *
+  	from tb_goods
+  	order by CREATE_TIME desc
+  	limit 0,10 
+  </select>
+</mapper>

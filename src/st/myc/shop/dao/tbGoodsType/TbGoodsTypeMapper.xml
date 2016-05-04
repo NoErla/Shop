@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="st.myc.shop.dao.tbGoodsType.TbGoodsTypeMapper" >
+  <resultMap id="BaseResultMap" type="st.myc.shop.entity.TbGoodsType" >
+    <id column="GOODS_TYPE_ID" property="goodsTypeId" jdbcType="INTEGER" />
+    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+    <result column="GOODS_TYPE_NAME" property="goodsTypeName" jdbcType="VARCHAR" />
+    <result column="ENAME" property="ename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GOODS_TYPE_ID, PARENT_ID, GOODS_TYPE_NAME, ENAME
+  </sql>
+  <select id="selectByExample" resultType="st.myc.shop.entity.vo.TbGoodsTypeVo" parameterType="st.myc.shop.entity.TbGoodsTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_goods_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultType="st.myc.shop.entity.vo.TbGoodsTypeVo" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_goods_type
+    where GOODS_TYPE_ID = #{goodsTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_goods_type
+    where GOODS_TYPE_ID = #{goodsTypeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="st.myc.shop.entity.TbGoodsTypeExample" >
+    delete from tb_goods_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="st.myc.shop.entity.TbGoodsType" >
+    <selectKey resultType="java.lang.Integer" keyProperty="goodsTypeId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_goods_type (PARENT_ID, GOODS_TYPE_NAME, ENAME
+      )
+    values (#{parentId,jdbcType=INTEGER}, #{goodsTypeName,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="st.myc.shop.entity.TbGoodsType" >
+    <selectKey resultType="java.lang.Integer" keyProperty="goodsTypeId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_goods_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        PARENT_ID,
+      </if>
+      <if test="goodsTypeName != null" >
+        GOODS_TYPE_NAME,
+      </if>
+      <if test="ename != null" >
+        ENAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTypeName != null" >
+        #{goodsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        #{ename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="st.myc.shop.entity.TbGoodsTypeExample" resultType="java.lang.Integer" >
+    select count(*) from tb_goods_type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_goods_type
+    <set >
+      <if test="record.goodsTypeId != null" >
+        GOODS_TYPE_ID = #{record.goodsTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentId != null" >
+        PARENT_ID = #{record.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsTypeName != null" >
+        GOODS_TYPE_NAME = #{record.goodsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ename != null" >
+        ENAME = #{record.ename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_goods_type
+    set GOODS_TYPE_ID = #{record.goodsTypeId,jdbcType=INTEGER},
+      PARENT_ID = #{record.parentId,jdbcType=INTEGER},
+      GOODS_TYPE_NAME = #{record.goodsTypeName,jdbcType=VARCHAR},
+      ENAME = #{record.ename,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="st.myc.shop.entity.TbGoodsType" >
+    update tb_goods_type
+    <set >
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsTypeName != null" >
+        GOODS_TYPE_NAME = #{goodsTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="ename != null" >
+        ENAME = #{ename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where GOODS_TYPE_ID = #{goodsTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="st.myc.shop.entity.TbGoodsType" >
+    update tb_goods_type
+    set PARENT_ID = #{parentId,jdbcType=INTEGER},
+      GOODS_TYPE_NAME = #{goodsTypeName,jdbcType=VARCHAR},
+      ENAME = #{ename,jdbcType=VARCHAR}
+    where GOODS_TYPE_ID = #{goodsTypeId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectSubType" resultType="st.myc.shop.entity.vo.TbGoodsTypeVo">
+  	select *
+  	from tb_goods_type
+  	where PARENT_ID = #{parentId}
+  </select>
+  
+  <select id="selectByEname" resultType="st.myc.shop.entity.vo.TbGoodsTypeVo">
+  	select *
+  	from tb_goods_type
+  	where ENAME = #{ename}
+  </select>
+</mapper>

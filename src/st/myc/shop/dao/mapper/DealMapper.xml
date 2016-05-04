@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="st.myc.shop.dao.mapper.DealMapper" >
+  <resultMap id="BaseResultMap" type="st.myc.shop.entity.Deal" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="project_sub_id" property="projectSubId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="total_price" property="totalPrice" jdbcType="DOUBLE" />
+    <result column="payment_id" property="paymentId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_status" property="orderStatus" jdbcType="BIT" />
+    <result column="is_show" property="isShow" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="st.myc.shop.entity.Deal" extends="BaseResultMap" >
+    <result column="memo" property="memo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_id, project_sub_id, user_id, pay_time, price, amount, total_price, payment_id, 
+    create_time, order_status,is_show
+  </sql>
+  <sql id="Blob_Column_List" >
+    memo
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from deal_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getPaidAndCreateDealCountByUserIdAndProjectId" resultType="java.lang.Integer">
+		select sum(amount)
+		from deal_info
+		where (order_status=0 or order_status=1)  and project_sub_id=#{projectSubId} and user_id=#{userId}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from deal_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="st.myc.shop.entity.Deal" >
+    insert into deal_info (id, project_id, project_sub_id, 
+      user_id, pay_time, price, 
+      amount, total_price, payment_id, 
+      create_time, order_status, is_show, memo
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{projectSubId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{payTime,jdbcType=TIMESTAMP}, #{price,jdbcType=DOUBLE}, 
+      #{amount,jdbcType=INTEGER}, #{totalPrice,jdbcType=DOUBLE}, #{paymentId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=BIT}, #{isShow,jdbcType=INTEGER}, #{memo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="st.myc.shop.entity.Deal" >
+    insert into deal_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="projectSubId != null" >
+        project_sub_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="paymentId != null" >
+        payment_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectSubId != null" >
+        #{projectSubId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="paymentId != null" >
+        #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=BIT},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="st.myc.shop.entity.Deal" >
+    update deal_info
+    <set >
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectSubId != null" >
+        project_sub_id = #{projectSubId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="paymentId != null" >
+        payment_id = #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=BIT},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="st.myc.shop.entity.Deal" >
+    update deal_info
+    set project_id = #{projectId,jdbcType=INTEGER},
+      project_sub_id = #{projectSubId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=DOUBLE},
+      amount = #{amount,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=DOUBLE},
+      payment_id = #{paymentId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_status = #{orderStatus,jdbcType=BIT},
+      is_show = #{isShow,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="st.myc.shop.entity.Deal" >
+    update deal_info
+    set project_id = #{projectId,jdbcType=INTEGER},
+      project_sub_id = #{projectSubId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=DOUBLE},
+      amount = #{amount,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=DOUBLE},
+      payment_id = #{paymentId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_status = #{orderStatus,jdbcType=BIT}
+      is_show = #{isShow,jdbcType=INTEGER},     
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getDealCount" resultType="java.lang.Integer">
+		select count(*)
+		from deal_info
+		where
+		<if test="userId != null">
+			user_id = #{userId ,jdbcType=INTEGER} AND
+		</if>
+		<if test="price != null">
+			price > #{price ,jdbcType=DOUBLE} AND
+		</if>
+		<if test="paymentId != null">
+			payment_id = #{paymentId ,jdbcType=INTEGER} AND
+		</if>
+		<if test="orderStatus != null">
+			order_status = #{orderStatus , jdbcType= INTEGER} AND
+		</if>
+		<if test="isShow != null">
+			is_show = #{isShow , jdbcType= INTEGER} AND
+		</if>
+		id IS NOT NULL;
+	</select>
+	
+	<select id="getDealListByPage" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.user_id = user.user_id
+		order by deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	<select id="getDealListByPageAndUser" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.user_id = user.user_id
+		order by deal_info.user_id,deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="getDealListByPageAndMoneyDesc" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.user_id = user.user_id
+		order by deal_info.price desc,deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="getDealListByPageAndMoneyAsc" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.user_id = user.user_id
+		order by deal_info.price asc,deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="getDealListByPageAndMoneyFive" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.price > 5000 and deal_info.user_id = user.user_id
+		order by deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="getDealListSuccess" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.order_status = 1 and deal_info.user_id = user.user_id
+		order by deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="getDealListFail" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.order_status = 0 and deal_info.user_id = user.user_id
+		order by deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="getDealListDelete" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.is_show = 1 and deal_info.user_id = user.user_id
+		order by deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="getDealListRefund" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.order_status = 4 and deal_info.user_id = user.user_id
+		order by deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="getDealListRefundEd" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.order_status = 3 and deal_info.user_id = user.user_id
+		order by deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="selectByUserId"  resultType="st.myc.shop.entity.vo.DealVo">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from deal_info 
+		where user_id = #{userId,jdbcType=INTEGER} and is_show = 0 order by id desc
+	</select>
+	<select id="selectById" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from deal_info
+		order by id desc limit 1;
+	</select>
+	
+	<select id="getDealListByOrderId" resultType="st.myc.shop.entity.vo.DealVo">
+		select deal_info.* ,user.username as username
+		from deal_info , user
+		where deal_info.user_id = user.user_id and deal_info.id =#{orderId,jdbcType=INTEGER}
+		order by deal_info.id desc
+		limit #{offset},#{rows}
+	</select>
+	
+	<select id="selectByIdAndLockIt" parameterType="java.lang.Integer" resultType="st.myc.shop.entity.vo.DealVo">
+		select *
+		from deal_info
+		where id = #{id,jdbcType=INTEGER}
+		for update
+	</select>
+	
+		<insert id="insertFindId" useGeneratedKeys="true" keyProperty="id" parameterType="st.myc.shop.entity.Deal">
+		insert into deal_info
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="projectSubId != null" >
+        project_sub_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="paymentId != null" >
+        payment_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectSubId != null" >
+        #{projectSubId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="paymentId != null" >
+        #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=BIT},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+	</insert>
+	
+	<update id="updateDealByMemo" parameterType="st.myc.shop.entity.Deal">
+		update deal_info
+		set order_status = #{orderStatus,jdbcType=INTEGER}
+		where memo = #{memo,jdbcType=INTEGER}
+	</update>
+	
+	
+</mapper>

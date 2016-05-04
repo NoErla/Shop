@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="st.myc.shop.dao.mapper.PaymentMapper" >
+  <resultMap id="BaseResultMap" type="st.myc.shop.entity.Payment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="notice_sn" property="noticeSn" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="is_paid" property="isPaid" jdbcType="BIT" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="payment_id" property="paymentId" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="outer_notice_sn" property="outerNoticeSn" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="st.myc.shop.entity.Payment" extends="BaseResultMap" >
+    <result column="memo" property="memo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, notice_sn, create_time, pay_time, order_id, is_paid, user_id, payment_id,
+    money, outer_notice_sn
+  </sql>
+  <sql id="Blob_Column_List" >
+    memo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from payment_notice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByOrderId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from payment_notice
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from payment_notice
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="st.myc.shop.entity.Payment" >
+    insert into payment_notice (id, notice_sn, create_time, 
+      pay_time, order_id, is_paid, 
+      user_id, payment_id, 
+      money, outer_notice_sn, memo
+      )
+    values (#{id,jdbcType=INTEGER}, #{noticeSn,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{orderId,jdbcType=INTEGER}, #{isPaid,jdbcType=BIT}, 
+      #{userId,jdbcType=INTEGER}, #{paymentId,jdbcType=INTEGER}, 
+      #{money,jdbcType=DOUBLE}, #{outerNoticeSn,jdbcType=VARCHAR}, #{memo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="st.myc.shop.entity.Payment" >
+    insert into payment_notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="noticeSn != null" >
+        notice_sn,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="isPaid != null" >
+        is_paid,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="paymentId != null" >
+        payment_id,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="outerNoticeSn != null" >
+        outer_notice_sn,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="noticeSn != null" >
+        #{noticeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="isPaid != null" >
+        #{isPaid,jdbcType=BIT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="paymentId != null" >
+        #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="outerNoticeSn != null" >
+        #{outerNoticeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="st.myc.shop.entity.Payment" >
+    update payment_notice
+    <set >
+      <if test="noticeSn != null" >
+        notice_sn = #{noticeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="isPaid != null" >
+        is_paid = #{isPaid,jdbcType=BIT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="paymentId != null" >
+        payment_id = #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="outerNoticeSn != null" >
+        outer_notice_sn = #{outerNoticeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByOrderId" parameterType="st.myc.shop.entity.Payment" >
+    update payment_notice
+    <set >
+      <if test="noticeSn != null" >
+        notice_sn = #{noticeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="isPaid != null" >
+        is_paid = #{isPaid,jdbcType=BIT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="paymentId != null" >
+        payment_id = #{paymentId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="outerNoticeSn != null" >
+        outer_notice_sn = #{outerNoticeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="st.myc.shop.entity.Payment" >
+    update payment_notice
+    set notice_sn = #{noticeSn,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      order_id = #{orderId,jdbcType=INTEGER},
+      is_paid = #{isPaid,jdbcType=BIT},
+      user_id = #{userId,jdbcType=INTEGER},
+      payment_id = #{paymentId,jdbcType=INTEGER},
+      money = #{money,jdbcType=DOUBLE},
+      outer_notice_sn = #{outerNoticeSn,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="st.myc.shop.entity.Payment" >
+    update payment_notice
+    set notice_sn = #{noticeSn,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      order_id = #{orderId,jdbcType=INTEGER},
+      is_paid = #{isPaid,jdbcType=BIT},
+      user_id = #{userId,jdbcType=INTEGER},
+      payment_id = #{paymentId,jdbcType=INTEGER},
+      money = #{money,jdbcType=DOUBLE},
+      outer_notice_sn = #{outerNoticeSn,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectListByOrderId" parameterType="int" resultType="st.myc.shop.entity.Payment">
+    select * 
+    from payment_notice
+    where order_id = #{orderId,jdbcType=INTEGER} 
+  </select>
+</mapper>

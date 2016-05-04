@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="st.myc.shop.dao.tbOrder.TbOrderMapper" >
+  <resultMap id="BaseResultMap" type="st.myc.shop.entity.TbOrder" >
+    <id column="ORDER_ID" property="orderId" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="ADDRESS_ID" property="addressId" jdbcType="INTEGER" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DOUBLE" />
+    <result column="IS_PAID" property="isPaid" jdbcType="INTEGER" />
+    <result column="IS_SEND" property="isSend" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORDER_ID, USER_ID, ADDRESS_ID, TOTAL_PRICE, IS_PAID, IS_SEND, CREATE_TIME, PAY_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_order
+    where ORDER_ID = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_order
+    where ORDER_ID = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="st.myc.shop.entity.TbOrder" >
+    insert into tb_order (ORDER_ID, USER_ID, ADDRESS_ID, 
+      TOTAL_PRICE, IS_PAID, IS_SEND, 
+      CREATE_TIME, PAY_TIME)
+    values (#{orderId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
+      #{totalPrice,jdbcType=DOUBLE}, #{isPaid,jdbcType=INTEGER}, #{isSend,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="orderId" parameterType="st.myc.shop.entity.TbOrder" >
+    insert into tb_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="addressId != null" >
+        ADDRESS_ID,
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE,
+      </if>
+      <if test="isPaid != null" >
+        IS_PAID,
+      </if>
+      <if test="isSend != null" >
+        IS_SEND,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="isPaid != null" >
+        #{isPaid,jdbcType=INTEGER},
+      </if>
+      <if test="isSend != null" >
+        #{isSend,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="st.myc.shop.entity.TbOrder" >
+    update tb_order
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null" >
+        ADDRESS_ID = #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE = #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="isPaid != null" >
+        IS_PAID = #{isPaid,jdbcType=INTEGER},
+      </if>
+      <if test="isSend != null" >
+        IS_SEND = #{isSend,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="st.myc.shop.entity.TbOrder" >
+    update tb_order
+    set USER_ID = #{userId,jdbcType=INTEGER},
+      ADDRESS_ID = #{addressId,jdbcType=INTEGER},
+      TOTAL_PRICE = #{totalPrice,jdbcType=DOUBLE},
+      IS_PAID = #{isPaid,jdbcType=INTEGER},
+      IS_SEND = #{isSend,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      PAY_TIME = #{payTime,jdbcType=TIMESTAMP}
+    where ORDER_ID = #{orderId,jdbcType=INTEGER}
+  </update>
+  <select id="getVoByUserId" resultType="st.myc.shop.entity.vo.TbOrderVo">
+  select *
+  from tb_order
+  where USER_ID=#{userId}
+  </select>
+  
+  <select id="getDynamicList" parameterType="st.myc.shop.entity.TbOrder" resultType="st.myc.shop.entity.vo.TbOrderVo">
+  select *
+  from tb_order
+  where 1=1 
+  <if test="userId != null" >
+      and USER_ID = #{userId,jdbcType=INTEGER}
+  </if>
+  <if test="isPaid != null" >
+       and  IS_PAID = #{isPaid,jdbcType=INTEGER}
+  </if>
+  <if test="isSend != null" >
+       and  IS_Send = #{isSend,jdbcType=INTEGER}
+  </if>
+  order by CREATE_TIME desc
+  </select>
+  
+  <select id="getDynamicCount" parameterType="st.myc.shop.entity.TbOrder" resultType="java.lang.Integer">
+  select count(0)
+  from tb_order
+  where 1=1 
+  <if test="userId != null" >
+      and USER_ID = #{userId,jdbcType=INTEGER}
+  </if>
+  <if test="isPaid != null" >
+       and  IS_PAID = #{isPaid,jdbcType=INTEGER}
+  </if>
+  <if test="isSend != null" >
+       and  IS_Send = #{isSend,jdbcType=INTEGER}
+  </if>
+  order by CREATE_TIME desc
+  </select>
+</mapper>

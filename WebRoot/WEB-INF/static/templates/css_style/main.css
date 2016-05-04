@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* CSS Document 2014.8.3 */
+body {font-family:microsoft yahei; margin:0; padding:0; font-size:12px; color:#666; background:#FFF;}
+div,form,img,ul,ol,li,dl,dt,dd,p{margin:0;padding:0;border:0;}
+ul,li{list-style-type:none;margin:0;padding:0;border:0;}
+img, a img{border:0; vertical-align:top;}
+input,select,textarea{vertical-align:middle;}
+h1,h2,h3,h4,h5,h6 {margin:0;padding:0;font-size:12px;font-weight:normal;}
+/* Link */
+a{color:#565656; text-decoration:none; transition:background 0.2s ease-in 0s, color 0.2s ease-in 0s; -webkit-transition:background 0.2s ease-in 0s, color 0.2s ease-in 0s; -moz-transition:background 0.2s ease-in 0s, color 0.2s ease-in 0s;}
+a:hover {color:#c10c17; text-decoration:none;}
+a.a_news {line-height:25px;text-decoration:underline;}
+/* Other */
+.clear{clear:both;font-size:1px;width:1px;height:0;visibility:hidden;overflow:hidden;}
+.mauto{width:980px; margin:0 auto;height:700px;}
+.m_auto{margin:0 auto;}
+
+/* Font  */
+.fb{font-weight:bold;}
+.f11px{font-size:11px;}
+.f14px{font-size:14px;}
+.f16px{font-size:16px;}
+.f10px{font-size:10px;}
+.li20px{line-height:20px;}
+.f18px{font-size:18px;}
+.f20px{font-size:20px;}
+.f24px{font-size:24px;}
+.f30px{font-size:30px;}
+.yahei{font-family:microsoft yahei;}
+.mt5{margin-top:5px;}
+.mt10{margin-top:10px;}
+.mt15{margin-top:15px;}
+.mt20{margin-top:20px;}
+.ml10{margin-left:10px;}
+.ml13{margin-left:13px;}
+.fl{float:left;}
+.fr{float:right;}
+.posr{position:relative;}
+.ovht{overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
